@@ -34,6 +34,7 @@ class _StockViewState extends ConsumerState<StockView> {
 
   void _onScroll() {
     if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      //if reaches max, will generate more data
       ref.read(stockProvider.notifier).loadMore();
     }
   }
@@ -52,9 +53,10 @@ class _StockViewState extends ConsumerState<StockView> {
     }
   }
 
+  var itemHeight = 72.0;
+
   void _scrollToSelectedIndex() {
     final selectedIndex = ref.read(selectedIndexProvider);
-    const itemHeight = 72.0;
     final listViewHeight = _scrollController.position.viewportDimension;
 
     final itemOffset = selectedIndex * itemHeight;
@@ -90,40 +92,52 @@ class _StockViewState extends ConsumerState<StockView> {
       body: RawKeyboardListener(
         focusNode: _focusNode,
         onKey: _onKey,
-        child: ListView.builder(
-          controller: _scrollController,
-          itemCount: stockItems.length,
-          itemBuilder: (context, index) {
-            final item = stockItems[index];
-            return GestureDetector(
-              onTap: () {
-                ref.read(selectedIndexProvider.notifier).state = index;
-              },
-              child: Container(
-                color: selectedIndex == index ? Colors.blueAccent : Colors.transparent,
-                child: ListTile(
-                  title: Row(
-                    children: [
-                      Text('Product: ', style: _styleBold()),
-                      Text(item.name, style: _styleOrdinary()),
-                    ],
-                  ),
-                  subtitle: Row(
-                    children: [
-                      Text('Producer: ', style: _styleBold()),
-                      Text(item.producer, style: _styleOrdinary()),
-                    ],
-                  ),
-                  trailing: Text('Quantity: ${item.qty}', style: _styleOrdinary()),
-                ),
-              ),
-            );
+        child: RefreshIndicator(
+          onRefresh: () async {
+            ref.read(stockProvider.notifier).loadMore();
           },
+          child: ListView.builder(
+            controller: _scrollController,
+            itemCount: stockItems.length,
+            physics: const AlwaysScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              final item = stockItems[index];
+              return GestureDetector(
+                onTap: () {
+                  ref.read(selectedIndexProvider.notifier).state = index;
+                },
+                child: Container(
+                  color: selectedIndex == index ? Colors.blueAccent : Colors.transparent,
+                  child: ListTile(
+                    title: Row(
+                      children: [
+                        Text('Product: ', style: _styleBold()),
+                        Expanded(child: Text(item.name, style: _styleOrdinary())),
+                      ],
+                    ),
+                    subtitle: Row(
+                      children: [
+                        Text('Producer: ', style: _styleBold()),
+                        Expanded(child: Text(item.producer, style: _styleOrdinary())),
+                      ],
+                    ),
+                    trailing: Text('Quantity: ${item.qty}', style: _styleOrdinary()),
+                  ),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
   }
 
-  TextStyle _styleOrdinary() => const TextStyle(color: Colors.white);
-  TextStyle _styleBold() => const TextStyle(color: Colors.white, fontWeight: FontWeight.bold);
+  TextStyle _styleOrdinary() => const TextStyle(
+        color: Colors.white,
+        overflow: TextOverflow.ellipsis,
+      );
+  TextStyle _styleBold() => const TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+      );
 }

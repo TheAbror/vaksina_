@@ -1,16 +1,21 @@
-# vaksina
+### Timings Breakdown
 
-A new Flutter project.
+Start Time: 12:00
+Learn/Understand Riverpod : 40 mins
+12:00 - 12:40
 
-## Getting Started
+Stock item with random values and maxLength : 30 mins
+12:40 - 13:10
 
-This project is a starting point for a Flutter application.
+Stock data provider : 20 mins
+13:10 - 13:30
 
-A few resources to get you started if this is your first Flutter project:
+Display random values & UI : 30 mins
+13:30 - 14:00
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Pagination and loading items : 30 mins
+14:00 - 14:30
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+RawKeyboardListener & _onKey method : 20 mins
+14:30 - 14:50
+

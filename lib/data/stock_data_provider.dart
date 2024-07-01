@@ -1,8 +1,10 @@
 import 'stock_item.dart';
+// ignore: depend_on_referenced_packages
 import 'package:riverpod/riverpod.dart';
 
-final stockProvider =
-    StateNotifierProvider<StockNotifier, List<StockItem>>((ref) => StockNotifier());
+final stockProvider = StateNotifierProvider<StockNotifier, List<StockItem>>(
+  (ref) => StockNotifier(),
+);
 final selectedIndexProvider = StateProvider<int>((ref) => 0);
 
 class StockNotifier extends StateNotifier<List<StockItem>> {

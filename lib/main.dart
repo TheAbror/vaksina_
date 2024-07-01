@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vaksina/stock_view.dart';
-
-// import 'package:riverpod/riverpod.dart';
+import 'package:vaksina/presentation/stock_view.dart';
 
 void main() {
   runApp(
